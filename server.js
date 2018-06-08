@@ -55,6 +55,18 @@ server.get('/api/projects/actions/:project_id', (req, res) => {
         })
 })
 
+server.post('/api/projects', (req, res) => {
+    const { name, description, completed } = req.body;
+    projects
+        .insert({ name, description, completed })
+        .then(newProject => {
+            res.status(201).json({ newProject })
+        })
+        .catch(err => {
+            return errorAlert(500, 'The information could not be retieved.', res);
+        })
+})
+
 
 
 
@@ -77,6 +89,19 @@ server.get('/api/actions/:id', (req, res) => {
         .get(id)
         .then(action => {
             res.json({ action })
+        })
+        .catch(err => {
+            return errorAlert(500, 'The information could not be retieved.', res);
+        })
+})
+
+server.post('/api/actions/:project_id', (req, res) => {
+    const { project_id } = req.params;
+    const { description, notes, completed } = req.body;
+    actions
+        .insert({ project_id, description, notes, completed })
+        .then(newAction => {
+            res.status(201).json({ newAction })
         })
         .catch(err => {
             return errorAlert(500, 'The information could not be retieved.', res);
