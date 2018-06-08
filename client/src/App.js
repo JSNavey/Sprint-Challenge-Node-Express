@@ -1,18 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import ProjectsList from './components/ProjectsList';
+import axios from 'axios';
 import './App.css';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      projects: []
+    }
+  }
+
+  componentWillMount() {
+    axios
+      .get('http://localhost:5555/api/projects')
+      .then(res => {
+        console.log('project:', res.data.project)
+        this.setState({ projects: res.data.project })
+      })
+  }
+
+
   render() {
+    // console.log('state: ', this.state.projects)
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Projects</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <div className="App-intro">
+        <ProjectsList projects={this.state.projects}/>
+        </div>
       </div>
     );
   }
