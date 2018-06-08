@@ -67,6 +67,18 @@ server.post('/api/projects', (req, res) => {
         })
 })
 
+server.delete('/api/projects/:id', (req, res) => {
+    const { id } = req.params;
+    projects
+        .remove(id)
+        .then(deleteProject => {
+            res.json({ deleteProject })
+        })
+        .catch(err => {
+            return errorAlert(500, 'The information could not be retieved.', res);
+        })
+})
+
 
 
 
@@ -107,6 +119,19 @@ server.post('/api/actions/:project_id', (req, res) => {
             return errorAlert(500, 'The information could not be retieved.', res);
         })
 })
+
+server.delete('/api/actions/:id', (req, res) => {
+    const { id } = req.params;
+    actions
+        .remove(id)
+        .then(deleteAction => {
+            res.json({ deleteAction })
+        })
+        .catch(err => {
+            return errorAlert(500, 'The information could not be retieved.', res);
+        })
+})
+
 
 
 
