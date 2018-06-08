@@ -79,7 +79,18 @@ server.delete('/api/projects/:id', (req, res) => {
         })
 })
 
-
+server.put('/api/projects/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, description, completed } = req.body;
+    projects
+        .update( id, { name, description, completed })
+        .then(updateProject => {
+            res.json({ updateProject })
+        })
+        .catch(err => {
+            return errorAlert(500, 'The information could not be retieved.', res);
+        })
+})
 
 
 //=================== Actions EndPoint ====================//
@@ -126,6 +137,19 @@ server.delete('/api/actions/:id', (req, res) => {
         .remove(id)
         .then(deleteAction => {
             res.json({ deleteAction })
+        })
+        .catch(err => {
+            return errorAlert(500, 'The information could not be retieved.', res);
+        })
+})
+
+server.put('/api/actions/:id', (req, res) => {
+    const { id } = req.params;
+    const { description, notes, completed } = req.body;
+    actions
+        .update( id, { description, notes, completed })
+        .then(updateAction => {
+            res.json({ updateAction })
         })
         .catch(err => {
             return errorAlert(500, 'The information could not be retieved.', res);
